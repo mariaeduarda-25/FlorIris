@@ -25,6 +25,26 @@ Este projeto foi desenvolvido para a disciplina de Inteligência Artificial, uti
   - Otimização: Gradiente Descendente.
   - Normalização: Min-Max Scaling aplicada aos dados de entrada.
 
+### 🔬 Funcionamento e Fundamentação Teórica
+
+#### 1. Camada de Saída: Por que Softmax?
+Para a classificação multiclasse mutuamente exclusiva (3 espécies de Iris), a função **Softmax** é aplicada na camada de saída. Ela recebe os valores numéricos brutos da rede (*logits*) e os transforma em uma **distribuição de probabilidade**:
+* Todas as probabilidades de saída mapeadas ficam estritamente no intervalo entre $0$ e $1$.
+* A soma das três probabilidades de saída é exatamente igual a $1$ ($100\%$).
+Isso permite determinar a classe mais provável e exibir uma taxa de confiança legível na interface gráfica.
+
+#### 2. Critérios de Parada do Treinamento
+O treinamento do modelo encerra-se ao satisfazer um dos dois parâmetros de parada:
+* **Parada por Tolerância de Convergência (Early Stopping)**: Se a diferença absoluta da função de custo (loss) entre a época atual e a anterior for menor do que a tolerância configurada `tol = 1e-5`, assume-se que o modelo convergiu e o processo é interrompido.
+* **Limite Máximo de Épocas**: Caso a convergência por variação mínima não ocorra, o treinamento cessa automaticamente ao atingir o limite físico de `max_epochs = 2000` épocas.
+
+#### 3. Como a Rede Aprende?
+O aprendizado é supervisionado e ocorre iterativamente através do ciclo:
+* **Propagação Direta (Forward Pass)**: O sinal de entrada passa pelas camadas oculta (com ativação Sigmóide) e saída (com ativação Softmax) para produzir as probabilidades preditas.
+* **Cálculo da Perda**: Mede-se o erro comparando a distribuição predita com os rótulos reais One-Hot encoded usando a função de **Entropia Cruzada Multiclasse (Categorical Cross-Entropy)**.
+* **Retropropagação (Backpropagation)**: Utilizando a **Regra da Cadeia**, os gradientes do erro em relação a cada peso e viés são calculados de trás para frente.
+* **Gradiente Descendente**: Os pesos e vieses são ajustados subtraindo o gradiente correspondente multiplicado pela taxa de aprendizado (`learning_rate = 0.1` ou $\eta$), minimizando progressivamente o erro global da rede.
+
 ## 📂 Estrutura do Projeto
 
 - `mlp_implementation.py`: Contém a classe MLP e o script de treinamento.
