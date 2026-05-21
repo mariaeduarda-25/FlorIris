@@ -15,7 +15,7 @@ Este projeto foi desenvolvido para a disciplina de Inteligência Artificial, uti
 - **Modelo**: Perceptron Multi Camadas (MLP).
 - **Arquitetura**:
   - Camada de Entrada: 4 neurônios (medidas das sépalas e pétalas).
-  - Camada Oculta: 50 neurônios (conforme requisito).
+  - Camada Oculta: 3 neurônios.
   - Camada de Saída: 3 neurônios (uma para cada espécie).
 - **Funções de Ativação**:
   - Camada Oculta: Sigmóide.
@@ -24,6 +24,8 @@ Este projeto foi desenvolvido para a disciplina de Inteligência Artificial, uti
   - Divisão de Dados: 70% para treino e 30% para teste.
   - Otimização: Gradiente Descendente.
   - Normalização: Min-Max Scaling aplicada aos dados de entrada.
+  - Semente de reprodutibilidade: Seed 202.
+  - Resultados: 96.19% de acurácia no treino e 97.78% no teste.
 
 ### 🔬 Funcionamento e Fundamentação Teórica
 
@@ -47,11 +49,14 @@ O aprendizado é supervisionado e ocorre iterativamente através do ciclo:
 
 ## 📂 Estrutura do Projeto
 
-- `mlp_implementation.py`: Contém a classe MLP e o script de treinamento.
+- `save_best_model.py`: Contém a classe MLP e o script de treinamento/exportação dos melhores pesos.
 - `mlp_model.pkl`: Arquivo com os pesos treinados e parâmetros de normalização.
-- `iris_project/`: Diretório do projeto Django.
-  - `predictor/`: App Django que gerencia a lógica de predição.
-  - `templates/index.html`: Interface web elegante e responsiva.
+- `iris_processed.npz`: Dataset pré-processado (features normalizadas + labels one-hot).
+- `iris_config/`: Diretório de configuração do projeto Django.
+  - `settings.py`: Configurações (idioma pt-br, timezone São Paulo).
+- `predictor/`: App Django que gerencia a lógica de predição.
+  - `views.py`: Lógica do MLP + endpoints (index, predict, api_predict).
+- `templates/index.html`: Interface web elegante e responsiva.
 
 ## 🛠️ Como Executar
 
@@ -62,12 +67,11 @@ O aprendizado é supervisionado e ocorre iterativamente através do ciclo:
 
 2. (Opcional) Treine o modelo novamente:
    ```bash
-   python mlp_implementation.py
+   python save_best_model.py
    ```
 
 3. Inicie o servidor Django:
    ```bash
-   cd iris_project
    python manage.py runserver
    ```
 
